@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals/components/app_drawer.dart';
 import 'package:meals/screens/categories_screen.dart';
 import 'package:meals/screens/favorite_screen.dart';
 
@@ -30,6 +31,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: _screens[_selectedScreenIndex]['title'],
       ),
+      drawer: const AppDrawer(),
       body: _screens[_selectedScreenIndex]['screen'],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).primaryColor,
