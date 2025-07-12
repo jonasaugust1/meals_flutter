@@ -3,10 +3,14 @@ import 'package:meals/components/app_drawer.dart';
 import 'package:meals/models/settings.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key,required this.onSettingsChanged});
+  const SettingsScreen({
+    super.key,
+    required this.settings,
+    required this.onSettingsChanged,
+  });
 
   static const routeName = '/settings';
-
+  final Settings settings;
   final Function(Settings) onSettingsChanged;
 
   @override
@@ -14,14 +18,14 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  late Settings _settings;
 
-  Map<String, bool> settings = {
-    'glutenFree': false,
-    'lactoseFree': false,
-    'vegan': false,
-    'vegetarian': false,
-  };
-
+  @override
+  initState() {
+    super.initState();
+    _settings = widget.settings;
+  }
+  
   Widget _createSwitchListTile(
       BuildContext context, 
       String title, 
@@ -37,10 +41,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       onChanged: (value) {
         onChanged(value);
         widget.onSettingsChanged(Settings(
-          isGlutenFree: settings['glutenFree'] ?? false,
-          isLactoseFree: settings['lactoseFree'] ?? false,
-          isVegan: settings['vegan'] ?? false,
-          isVegetarian: settings['vegetarian'] ?? false,
+          isGlutenFree: _settings.isGlutenFree,
+          isLactoseFree: _settings.isLactoseFree,
+          isVegan: _settings.isVegan,
+          isVegetarian: _settings.isVegetarian,
         ));
       },
       activeColor: Colors.green,
@@ -61,10 +65,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             context,
             'Sem Glúten',
             'Só exibe refeições sem glúten',
-            settings['glutenFree'] ?? false,
+            _settings.isGlutenFree,
             (value) {
               setState(() {
-                settings['glutenFree'] = value;
+                _settings.isGlutenFree = value;
               });
             },
           ),
@@ -72,10 +76,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             context,
             'Sem Lactose',
             'Só exibe refeições sem lactose',
-            settings['lactoseFree'] ?? false,
+            _settings.isLactoseFree,
             (value) {
               setState(() {
-                settings['lactoseFree'] = value;
+                _settings.isLactoseFree = value;
               });
             },
           ),
@@ -83,10 +87,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             context,
             'Vegana',
             'Só exibe refeições veganas',
-            settings['vegan'] ?? false,
+            _settings.isVegan,
             (value) {
               setState(() {
-                settings['vegan'] = value;
+                _settings.isVegan = value;
               });
             },
           ),
@@ -94,10 +98,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             context,
             'Vegetariana',
             'Só exibe refeições vegetarianas',
-            settings['vegetarian'] ?? false,
+            _settings.isVegetarian,
             (value) {
               setState(() {
-                settings['vegetarian'] = value;
+                _settings.isVegetarian = value;
               });
             },
           ),

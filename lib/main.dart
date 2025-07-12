@@ -19,15 +19,25 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   List<Meal> _favoriteMeals = [];
+
+  Settings _settings = Settings(
+    isGlutenFree: false,
+    isLactoseFree: false,
+    isVegan: false,
+    isVegetarian: false,
+  );
+
   List<Meal> _availableMeals = DUMMY_MEALS;
 
   _filterMeals(Settings settings) {
     setState(() {
+      _settings = settings;
+
       _availableMeals = DUMMY_MEALS.where((meal) {
-        final isGlutenFree = settings.isGlutenFree && meal.isGlutenFree;
-        final isLactoseFree = settings.isLactoseFree && meal.isLactoseFree;
-        final isVegan = settings.isVegan && meal.isVegan;
-        final isVegetarian = settings.isVegetarian && meal.isVegetarian;
+        final isGlutenFree = _settings.isGlutenFree && meal.isGlutenFree;
+        final isLactoseFree = _settings.isLactoseFree && meal.isLactoseFree;
+        final isVegan = _settings.isVegan && meal.isVegan;
+        final isVegetarian = _settings.isVegetarian && meal.isVegetarian;
 
         return isGlutenFree || isLactoseFree || isVegan || isVegetarian;
       }).toList();
@@ -76,7 +86,10 @@ class _MyAppState extends State<MyApp> {
         CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
         CategoriesMealsScreen.routeName: (ctx) => CategoriesMealsScreen(meals: _availableMeals),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        SettingsScreen.routeName: (ctx) => SettingsScreen(onSettingsChanged: _filterMeals),
+        SettingsScreen.routeName: (ctx) => SettingsScreen(
+          settings: _settings, 
+          onSettingsChanged: _filterMeals
+        ),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
         builder: (ctx) => CategoriesScreen(),
