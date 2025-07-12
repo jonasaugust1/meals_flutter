@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals/screens/categories_screen.dart';
-import 'package:meals/screens/favorite_screen.dart';
+import 'package:meals/screens/settings_screen.dart';
+import 'package:meals/screens/tabs_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -21,9 +21,7 @@ class AppDrawer extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      onTap: () {
-        Navigator.of(context).pushReplacementNamed(routeName);
-      },
+      onTap: () => Navigator.of(context).pushReplacementNamed(routeName),
     );
   }
 
@@ -49,14 +47,14 @@ class AppDrawer extends StatelessWidget {
           _createMenuItem(
             context,
             Icons.restaurant,
-            'Categories',
-            CategoriesScreen.routeName,
+            'Categorias',
+            TabsScreen.routeName,
           ),
           _createMenuItem(
             context,
-            Icons.star,
-            'Favorites',
-            FavoriteScreen.routeName,
+            Icons.settings,
+            'Configurações',
+            SettingsScreen.routeName,
           ),
         ],
       ),
