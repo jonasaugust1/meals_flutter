@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:meals/components/app_drawer.dart';
+import 'package:meals/models/settings.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({super.key,required this.onSettingsChanged});
 
   static const routeName = '/settings';
+
+  final Function(Settings) onSettingsChanged;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -31,7 +34,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: Text(title),
       subtitle: Text(subtitle),
       value: value,
-      onChanged: onChanged,
+      onChanged: (value) {
+        onChanged(value);
+        widget.onSettingsChanged(Settings(
+          isGlutenFree: settings['glutenFree'] ?? false,
+          isLactoseFree: settings['lactoseFree'] ?? false,
+          isVegan: settings['vegan'] ?? false,
+          isVegetarian: settings['vegetarian'] ?? false,
+        ));
+      },
       activeColor: Colors.green,
       inactiveTrackColor: Theme.of(context).colorScheme.error,
     );
