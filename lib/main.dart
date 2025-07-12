@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Meal> _favoriteMeals = [];
+  final List<Meal> _favoriteMeals = [];
 
   Settings _settings = Settings(
     isGlutenFree: false,
@@ -41,6 +41,41 @@ class _MyAppState extends State<MyApp> {
 
         return isGlutenFree || isLactoseFree || isVegan || isVegetarian;
       }).toList();
+    });
+  }
+
+  _showSnackBarMessage(
+    BuildContext context,
+    String message,
+    {Color? backgroundColor}
+  ) 
+  {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+        backgroundColor: backgroundColor,
+      ),
+    );
+  }
+
+  _addFavoriteMeal(BuildContext context, Meal meal) {
+    setState(() {
+      if (!_favoriteMeals.contains(meal)) {
+        _favoriteMeals.add(meal);
+
+        _showSnackBarMessage(
+          context,
+          '${meal.title} adicionado aos favoritos!'
+        );
+      }
+      else {
+        _showSnackBarMessage(
+          context,
+          '${meal.title} já está nos favoritos!',
+          backgroundColor: Theme.of(context).colorScheme.error
+        );
+      }
     });
   }
 
@@ -82,10 +117,10 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       routes: {
-        TabsScreen.routeName: (ctx) => const TabsScreen(),
+        TabsScreen.routeName: (ctx) => TabsScreen(favoriteMeals: _favoriteMeals),
         CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
         CategoriesMealsScreen.routeName: (ctx) => CategoriesMealsScreen(meals: _availableMeals),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(onFavoriteMeal: _addFavoriteMeal),
         SettingsScreen.routeName: (ctx) => SettingsScreen(
           settings: _settings, 
           onSettingsChanged: _filterMeals
