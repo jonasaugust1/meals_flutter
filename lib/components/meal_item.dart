@@ -11,7 +11,14 @@ class MealItem extends StatelessWidget {
     Navigator.of(context).pushNamed(
       MealDetailScreen.routeName,
       arguments: meal,
-    );
+    ).then((result) {
+      if (result != null) {
+        print('Received result: $result');
+      } 
+      else {
+        print('No result received');
+      }
+    });
   }
 
   @override

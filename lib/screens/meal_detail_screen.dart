@@ -86,6 +86,18 @@ class MealDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.star),
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${meal.title} adicionado aos favoritos!')
+            )
+          );
+
+          Navigator.of(context).pop(meal.title);
+        },
+      ),
     );
   }
 }

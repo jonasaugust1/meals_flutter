@@ -40,6 +40,12 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: Colors.green,
+          contentTextStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       routes: {
         TabsScreen.routeName: (ctx) => const TabsScreen(),
